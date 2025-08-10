@@ -500,11 +500,11 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
     pDialog.close()
 
     ## Create Channel Warnings Textile
-    channel_pull = '\nPlease Create an Pull Request for Missing Rytec Id´s to https://github.com/sunsettrack4/config_files/blob/master/tvs_channels.json\n'
+    channel_pull = '\nPlease Create an Pull Request for Missing Rytec Id´s for tvs_channels.json to https://www.kodinerds.net/thread/64901\n'
     mapper.create_channel_warnings(swcCH_channels_warnings_tmp, swcCH_channels_warnings, provider, channel_pull)
 
     ## Create Genre Warnings Textfile
-    genre_pull = '\nPlease Create an Pull Request for Missing EIT Genres to https://github.com/sunsettrack4/config_files/blob/master/tvs_genres.json\n'
+    genre_pull = '\nPlease Create an Pull Request for Missing EIT Genres for tvs_genres.json to https://www.kodinerds.net/thread/64901\n'
     mapper.create_genre_warnings(swcCH_genres_warnings_tmp, swcCH_genres_warnings, provider, genre_pull)
 
     notify(addon_name, '{} {} {}'.format(loc(32370),provider,loc(32371)), icon=xbmcgui.NOTIFICATION_INFO)
