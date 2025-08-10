@@ -26,6 +26,7 @@ addon_name = ADDON.getAddonInfo('name')
 addon_version = ADDON.getAddonInfo('version')
 loc = ADDON.getLocalizedString
 datapath = xbmcvfs.translatePath(ADDON.getAddonInfo('profile'))
+addon_path=xbmcvfs.translatePath(ADDON.getAddonInfo('path'))
 temppath = os.path.join(datapath, "temp")
 provider_temppath = os.path.join(temppath, "swcCH")
 
@@ -37,11 +38,8 @@ if enable_multithread:
     except:
         pass
 
-## MAPPING Variables Thx @ sunsettrack4
-swcCH_genres_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/master/swc_genres.json'
-swcCH_genres_json = os.path.join(provider_temppath, 'swc_genres.json')
-swcCH_channels_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/master/swc_channels.json'
-swcCH_channels_json = os.path.join(provider_temppath, 'swc_channels.json')
+swcCH_genres_json = os.path.join(addon_path, 'resources', 'config_files', 'swc_genres.json')
+swcCH_channels_json = os.path.join(addon_path, 'resources', 'config_files', 'swc_channels.json')
 
 ## Log Files
 swcCH_genres_warnings_tmp = os.path.join(provider_temppath, 'swcCH_genres_warnings.txt')
@@ -500,11 +498,11 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
     pDialog.close()
 
     ## Create Channel Warnings Textile
-    channel_pull = '\nPlease Create an Pull Request for Missing Rytec Id´s for tvs_channels.json to https://www.kodinerds.net/thread/64901\n'
+    channel_pull = '\nPlease Create an Pull Request for Missing Rytec Id´s for swc_channels.json to https://www.kodinerds.net/thread/64901\n'
     mapper.create_channel_warnings(swcCH_channels_warnings_tmp, swcCH_channels_warnings, provider, channel_pull)
 
     ## Create Genre Warnings Textfile
-    genre_pull = '\nPlease Create an Pull Request for Missing EIT Genres for tvs_genres.json to https://www.kodinerds.net/thread/64901\n'
+    genre_pull = '\nPlease Create an Pull Request for Missing EIT Genres for swc_genres.json to https://www.kodinerds.net/thread/64901\n'
     mapper.create_genre_warnings(swcCH_genres_warnings_tmp, swcCH_genres_warnings, provider, genre_pull)
 
     notify(addon_name, '{} {} {}'.format(loc(32370),provider,loc(32371)), icon=xbmcgui.NOTIFICATION_INFO)
