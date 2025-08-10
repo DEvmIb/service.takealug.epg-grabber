@@ -151,7 +151,9 @@
           "800.801": "Advertisement / Shopping",
           "800.802": "Sendepause",
           "800.803": "Programm nach Ansage",
-          "800.804": "Nachtprogramm"
+          "800.804": "Nachtprogramm",
+          "500.535" : "Sports",
+          "100.127": "Movie / CH:Filmszene"          
           }
   }
 }
