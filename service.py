@@ -12,9 +12,7 @@ import socket
 from collections import Counter
 from resources.lib import xml_structure
 from resources.providers import magenta_DE
-from resources.providers import tvspielfilm_DE
 from resources.providers import swisscom_CH
-from resources.providers import horizon
 from resources.providers import zattoo
 import sys
 import platform
@@ -53,20 +51,7 @@ enable_multithread = True if ADDON.getSetting('enable_multithread').upper() == '
 ## Get Enabled Grabbers
 # Divers
 enable_grabber_magentaDE = True if ADDON.getSetting('enable_grabber_magentaDE').upper() == 'TRUE' else False
-enable_grabber_tvsDE = True if ADDON.getSetting('enable_grabber_tvsDE').upper() == 'TRUE' else False
 enable_grabber_swcCH = True if ADDON.getSetting('enable_grabber_swcCH').upper() == 'TRUE' else False
-# Horizon
-enable_grabber_hznDE = True if ADDON.getSetting('enable_grabber_hznDE').upper() == 'TRUE' else False
-enable_grabber_hznAT = True if ADDON.getSetting('enable_grabber_hznAT').upper() == 'TRUE' else False
-enable_grabber_hznCH = True if ADDON.getSetting('enable_grabber_hznCH').upper() == 'TRUE' else False
-enable_grabber_hznNL = True if ADDON.getSetting('enable_grabber_hznNL').upper() == 'TRUE' else False
-enable_grabber_hznPL = True if ADDON.getSetting('enable_grabber_hznPL').upper() == 'TRUE' else False
-enable_grabber_hznIE = True if ADDON.getSetting('enable_grabber_hznIE').upper() == 'TRUE' else False
-enable_grabber_hznGB = True if ADDON.getSetting('enable_grabber_hznGB').upper() == 'TRUE' else False
-enable_grabber_hznSK = True if ADDON.getSetting('enable_grabber_hznSK').upper() == 'TRUE' else False
-enable_grabber_hznCZ = True if ADDON.getSetting('enable_grabber_hznCZ').upper() == 'TRUE' else False
-enable_grabber_hznHU = True if ADDON.getSetting('enable_grabber_hznHU').upper() == 'TRUE' else False
-enable_grabber_hznRO = True if ADDON.getSetting('enable_grabber_hznRO').upper() == 'TRUE' else False
 # Zattoo
 enable_grabber_zttDE = True if ADDON.getSetting('enable_grabber_zttDE').upper() == 'TRUE' else False
 enable_grabber_zttCH = True if ADDON.getSetting('enable_grabber_zttCH').upper() == 'TRUE' else False
@@ -88,7 +73,7 @@ enable_grabber_swbDE = True if ADDON.getSetting('enable_grabber_swbDE').upper() 
 enable_grabber_eirIE = True if ADDON.getSetting('enable_grabber_eirIE').upper() == 'TRUE' else False
 
 # Check if any Grabber is enabled
-if (enable_grabber_magentaDE or enable_grabber_tvsDE or enable_grabber_swcCH or enable_grabber_hznDE or enable_grabber_hznAT or enable_grabber_hznCH or enable_grabber_hznNL or enable_grabber_hznPL or enable_grabber_hznIE or enable_grabber_hznGB or enable_grabber_hznSK or enable_grabber_hznCZ or enable_grabber_hznHU or enable_grabber_hznRO or enable_grabber_zttDE or enable_grabber_zttCH or enable_grabber_1und1DE or enable_grabber_qlCH or enable_grabber_mnetDE or enable_grabber_walyCH or enable_grabber_mweltAT or enable_grabber_bbvDE or enable_grabber_vtxCH or enable_grabber_myvisCH or enable_grabber_gvisCH or enable_grabber_sakCH or enable_grabber_nettvDE or enable_grabber_eweDE or enable_grabber_qttvCH or enable_grabber_saltCH or enable_grabber_swbDE or enable_grabber_eirIE):
+if (enable_grabber_magentaDE or enable_grabber_swcCH or enable_grabber_zttDE or enable_grabber_zttCH or enable_grabber_1und1DE or enable_grabber_qlCH or enable_grabber_mnetDE or enable_grabber_walyCH or enable_grabber_mweltAT or enable_grabber_bbvDE or enable_grabber_vtxCH or enable_grabber_myvisCH or enable_grabber_gvisCH or enable_grabber_sakCH or enable_grabber_nettvDE or enable_grabber_eweDE or enable_grabber_qttvCH or enable_grabber_saltCH or enable_grabber_swbDE or enable_grabber_eirIE):
     enabled_grabber = True
 else:
     enabled_grabber = False
@@ -173,54 +158,16 @@ def run_grabber():
     if check_startup():
         importlib.reload(xml_structure)
         importlib.reload(magenta_DE)
-        importlib.reload(tvspielfilm_DE)
         importlib.reload(swisscom_CH)
-        importlib.reload(horizon)
         importlib.reload(zattoo)
         xml_structure.xml_start()
         ## Check Provider , Create XML Channels
         if enable_grabber_magentaDE:
             if magenta_DE.startup():
                 magenta_DE.create_xml_channels()
-        if enable_grabber_tvsDE:
-            if tvspielfilm_DE.startup():
-                tvspielfilm_DE.create_xml_channels()
         if enable_grabber_swcCH:
             if swisscom_CH.startup():
                 swisscom_CH.create_xml_channels()
-        if enable_grabber_hznDE:
-            if horizon.startup('de'):
-                horizon.create_xml_channels('de')
-        if enable_grabber_hznAT:
-            if horizon.startup('at'):
-                horizon.create_xml_channels('at')
-        if enable_grabber_hznCH:
-            if horizon.startup('ch'):
-                horizon.create_xml_channels('ch')
-        if enable_grabber_hznNL:
-            if horizon.startup('nl'):
-                horizon.create_xml_channels('nl')
-        if enable_grabber_hznPL:
-            if horizon.startup('pl'):
-                horizon.create_xml_channels('pl')
-        if enable_grabber_hznIE:
-            if horizon.startup('ie'):
-                horizon.create_xml_channels('ie')
-        if enable_grabber_hznGB:
-            if horizon.startup('gb'):
-                horizon.create_xml_channels('gb')
-        if enable_grabber_hznSK:
-            if horizon.startup('sk'):
-                horizon.create_xml_channels('sk')
-        if enable_grabber_hznCZ:
-            if horizon.startup('cz'):
-                horizon.create_xml_channels('cz')
-        if enable_grabber_hznHU:
-            if horizon.startup('hu'):
-                horizon.create_xml_channels('hu')
-        if enable_grabber_hznRO:
-            if horizon.startup('ro'):
-                horizon.create_xml_channels('ro')
         if enable_grabber_zttDE:
             if zattoo.startup('ztt_de'):
                 zattoo.create_xml_channels('ztt_de')
@@ -283,45 +230,9 @@ def run_grabber():
             if enable_grabber_magentaDE:
                 if magenta_DE.startup():
                     magenta_DE.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
-            if enable_grabber_tvsDE:
-                if tvspielfilm_DE.startup():
-                    tvspielfilm_DE.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_swcCH:
                 if swisscom_CH.startup():
                     swisscom_CH.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
-            if enable_grabber_hznDE:
-                if horizon.startup('de'):
-                    horizon.create_xml_broadcast('de', enable_rating_mapper, thread_temppath, download_threads)
-            if enable_grabber_hznAT:
-                if horizon.startup('at'):
-                    horizon.create_xml_broadcast('at', enable_rating_mapper, thread_temppath, download_threads)
-            if enable_grabber_hznCH:
-                if horizon.startup('ch'):
-                    horizon.create_xml_broadcast('ch', enable_rating_mapper, thread_temppath, download_threads)
-            if enable_grabber_hznNL:
-                if horizon.startup('nl'):
-                    horizon.create_xml_broadcast('nl', enable_rating_mapper, thread_temppath, download_threads)
-            if enable_grabber_hznPL:
-                if horizon.startup('pl'):
-                    horizon.create_xml_broadcast('pl', enable_rating_mapper, thread_temppath, download_threads)
-            if enable_grabber_hznIE:
-                if horizon.startup('ie'):
-                    horizon.create_xml_broadcast('ie', enable_rating_mapper, thread_temppath, download_threads)
-            if enable_grabber_hznGB:
-                if horizon.startup('gb'):
-                    horizon.create_xml_broadcast('gb', enable_rating_mapper, thread_temppath, download_threads)
-            if enable_grabber_hznSK:
-                if horizon.startup('sk'):
-                    horizon.create_xml_broadcast('sk', enable_rating_mapper, thread_temppath, download_threads)
-            if enable_grabber_hznCZ:
-                if horizon.startup('cz'):
-                    horizon.create_xml_broadcast('cz', enable_rating_mapper, thread_temppath, download_threads)
-            if enable_grabber_hznHU:
-                if horizon.startup('hu'):
-                    horizon.create_xml_broadcast('hu', enable_rating_mapper, thread_temppath, download_threads)
-            if enable_grabber_hznRO:
-                if horizon.startup('ro'):
-                    horizon.create_xml_broadcast('ro', enable_rating_mapper, thread_temppath, download_threads)
             if enable_grabber_zttDE:
                 if zattoo.startup('ztt_de'):
                     zattoo.create_xml_broadcast('ztt_de', enable_rating_mapper, thread_temppath, download_threads)
