@@ -295,11 +295,6 @@ def download_thread(chlist_selected, multi, list, starttime, endtime):
 
 def create_xml_channels():
     log('{} {}'.format(provider,loc(32362)), xbmc.LOGINFO)
-    if channel_format == 'rytec':
-        ## Save swcCH_channels.json to Disk
-        swcCH_channels_response = requests.get(swcCH_channels_url).json()
-        with open(swcCH_channels_json, 'w', encoding='utf-8') as swcCH_channels:
-            json.dump(swcCH_channels_response, swcCH_channels)
 
     with open(swcCH_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
@@ -335,12 +330,6 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
 
     download_multithread(thread_temppath, download_threads)
     log('{} {}'.format(provider, loc(32365)), xbmc.LOGINFO)
-
-    if genre_format == 'eit':
-        ## Save hzn_genres.json to Disk
-        genres_file = requests.get(swcCH_genres_url).json()
-        with open(swcCH_genres_json, 'w', encoding='utf-8') as genres_list:
-            json.dump(genres_file, genres_list)
 
     with open(swcCH_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
