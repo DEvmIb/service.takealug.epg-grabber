@@ -26,6 +26,7 @@ addon_name = ADDON.getAddonInfo('name')
 addon_version = ADDON.getAddonInfo('version')
 loc = ADDON.getLocalizedString
 datapath = xbmcvfs.translatePath(ADDON.getAddonInfo('profile'))
+addon_path=xbmcvfs.translatePath(ADDON.getAddonInfo('path'))
 temppath = os.path.join(datapath, "temp")
 provider_temppath = os.path.join(temppath, "magentaDE")
 
@@ -37,11 +38,8 @@ if enable_multithread:
     except:
         pass
 
-## MAPPING Variables Thx @ sunsettrack4
-tkm_genres_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/master/tkm_genres.json'
-tkm_genres_json = os.path.join(provider_temppath, 'tkm_genres.json')
-tkm_channels_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/master/tkm_channels.json'
-tkm_channels_json = os.path.join(provider_temppath, 'tkm_channels.json')
+tkm_genres_json = os.path.join(addon_path, 'resources', 'config_files', 'tkm_genres.json')
+tkm_channels_json = os.path.join(addon_path, 'resources', 'config_files', 'tkm_channels.json')
 
 ## Log Files
 magentaDE_genres_warnings_tmp = os.path.join(provider_temppath, 'magentaDE_genres_warnings.txt')
@@ -386,12 +384,6 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
     download_multithread(thread_temppath, download_threads)
     log('{} {}'.format(provider, loc(32365)), xbmc.LOGINFO)
 
-    if genre_format == 'eit':
-        ## Save tkm_genres.json to Disk
-        tkm_genres_response = requests.get(tkm_genres_url).json()
-        with open(tkm_genres_json, 'w', encoding='utf-8') as tkm_genres:
-            json.dump(tkm_genres_response, tkm_genres)
-
     with open(magentaDE_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
 
@@ -515,11 +507,11 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
     pDialog.close()
 
     ## Create Channel Warnings Textile
-    channel_pull = '\nPlease Create an Pull Request for Missing Rytec Id´s to https://github.com/sunsettrack4/config_files/blob/master/tkm_channels.json\n'
+    channel_pull = '\nPlease Create an Pull Request for Missing Rytec Id´s for tkm_channels.json on https://www.kodinerds.net/thread/64901\n'
     mapper.create_channel_warnings(magentaDE_channels_warnings_tmp, magentaDE_channels_warnings, provider, channel_pull)
 
     ## Create Genre Warnings Textfile
-    genre_pull = '\nPlease Create an Pull Request for Missing EIT Genres to https://github.com/sunsettrack4/config_files/blob/master/tkm_genres.json\n'
+    genre_pull = '\nPlease Create an Pull Request for Missing EIT Genres for tkm_genres.json on https://www.kodinerds.net/thread/64901\n'
     mapper.create_genre_warnings(magentaDE_genres_warnings_tmp, magentaDE_genres_warnings, provider, genre_pull)
 
     notify(addon_name, '{} {} {}'.format(loc(32370),provider,loc(32371)), icon=xbmcgui.NOTIFICATION_INFO)
