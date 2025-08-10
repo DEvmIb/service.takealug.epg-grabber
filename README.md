@@ -33,17 +33,15 @@ This is an easy-to-use kodi addon which grabs epg data from various providers an
 ## Provider List
 ```
    -Magenta TV (DE)
-   -TV Spielfilm (DE)
    -Swisscom (CH)
-   -Horizon (DE,AT,CH,NL,PL,IE,GB,SK,CZ,HU,RO)
    -Zattoo (DE,CH,1und1TV,Quickline Mobil-TV,M-net TVplus,WALY.TV,Meine Welt unterwegs,BBV TV,VTX TV,myVision mobile TV,Glattvision+,SAK TV,Net TV,EWE TV App,Quantum TV,Salt TV,SWB TV App,eir TV) 
 
 ```
 
-<img src="https://raw.githubusercontent.com/DeBaschdi/service.takealug.epg-grabber/master/screenshot1.png" height="270" width="480">
-<img src="https://raw.githubusercontent.com/DeBaschdi/service.takealug.epg-grabber/master/screenshot3.png" height="270" width="480">
-<img src="https://raw.githubusercontent.com/DeBaschdi/service.takealug.epg-grabber/master/screenshot2.png" height="270" width="480">
-<img src="https://raw.githubusercontent.com/DeBaschdi/service.takealug.epg-grabber/master/fanart.jpg" height="270" width="480">
+<img src="https://raw.githubusercontent.com/DEvmIb/service.takealug.epg-grabber/master/screenshot1.png" height="270" width="480">
+<img src="https://raw.githubusercontent.com/DEvmIb/service.takealug.epg-grabber/master/screenshot3.png" height="270" width="480">
+<img src="https://raw.githubusercontent.com/DEvmIb/service.takealug.epg-grabber/master/screenshot2.png" height="270" width="480">
+<img src="https://raw.githubusercontent.com/DEvmIb/service.takealug.epg-grabber/master/fanart.jpg" height="270" width="480">
 
 ### Download
 Kodinerds Repository can be found here https://repo.kodinerds.net/
@@ -51,5 +49,3 @@ Kodinerds Repository can be found here https://repo.kodinerds.net/
 ### Support Thread
 [Kodinerds.net](https://www.kodinerds.net/index.php/Thread/64901-RELEASE-Takealug-EPG-Grabber/?pageNo=1)
 
-### Support my work
-If you like my Work, please [![Paypal Donation Page](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://paypal.me/DeBaschdi) - thank you! :-)
