@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="service.takealug.epg-grabber" name="Takealug EPG Grabber" version="1.1.8+matrix" provider-name="DeBaschdi, Ad0lar">
+<addon id="service.takealug.epg-grabber" name="Takealug EPG Grabber" version="1.1.8+matrix"
+    provider-name="DeBaschdi, Ad0lar">
     <requires>
-        <import addon="xbmc.python" version="3.0.0"/>
-        <import addon="script.module.requests"/>
+        <import addon="xbmc.python" version="3.0.0" />
+        <import addon="script.module.requests" />
     </requires>
     <extension point="xbmc.service" library="service.py" start="startup" />
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
         <summary>EPG Grabber</summary>
-        <description lang="en">Grabbs EPG Data from Different IPTV Sources and generate an xmltv Guide</description>
-        <description lang="de">Grabbt EPG Daten von verschiedenen IPTV Quellen und erstellt eine guide.xml</description>
+        <description lang="en">Grabbs EPG Data from Different IPTV Sources and generate an xmltv
+            Guide</description>
+        <description lang="de">Grabbt EPG Daten von verschiedenen IPTV Quellen und erstellt eine
+            guide.xml</description>
         <source>https://github.com/DeBaschdi/repo/tree/master/service.takealug.epg-grabber/</source>
         <forum>https://www.kodinerds.net/index.php/Thread/64901-RELEASE-Takealug-EPG-Grabber/</forum>
         <assets>
@@ -20,6 +23,10 @@
             <screenshot>screenshot1.png</screenshot>
             <screenshot>screenshot2.png</screenshot>
         </assets>
-        <news lang="en">1.1.8+ overhaul</news>
+        <news lang="en"><![CDATA[
+            1.1.8 (2025-08-11)
+            - overhauling the code  
+            ]]>
+            </news>
     </extension>
 </addon>
