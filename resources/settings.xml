@@ -1,5 +1,5 @@
 <settings>
-    <category label="32130"> <!-- Provider Settings -->
+    <category label="32140"> <!-- Provider Settings -->
         <setting label="32131" type="lsep"/> <!-- Provider Selection -->
         <setting label="32140" type="lsep"/> <!-- Magenta (DE) -->
         <setting id="enable_grabber_magentaDE" type="bool" label="32141" default="false" /><!-- Enable Magenta (DE)-->
@@ -8,7 +8,8 @@
         <setting id="magentaDE_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-3,false)" /> <!-- Channel Format -->
         <setting id="magentaDE_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-4,false)" /> <!-- Genre Format -->
         <setting id="magentaDE_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-5,false)" /> <!-- Days to Grab -->
-
+    </category>
+    <category label="32164">
         <setting label="32164" type="lsep"/> <!-- Swisscom (CH) -->
         <setting id="enable_grabber_swcCH" type="bool" label="32165" default="false" /><!-- Enable Swisscom (CH) -->
         <setting id="select_channels_swcCH" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_swcCH)" option="close" visible="!eq(-1,false)"/>
@@ -210,14 +211,14 @@
         <setting label="Multithread" type="lsep" /> <!-- Tvheadend -->
         <setting id="enable_multithread" type="bool" label="32123" default="false" /><!-- Enable Multithread -->
         <setting id="download_threads" type="select" label="32122" default="2" values="2|4|6|8|10|12|14|16" enable="eq(-1,true)" /> <!-- Number of concurrent downloads (threads) -->
+    </category>
+
+    <category label="32100"> <!-- EPG Actions -->
+        <setting label="32101" type="lsep"/> <!-- Manual Download -->
+        <setting id="manual_download" type="action" label="32102" action="RunScript(service.takealug.epg-grabber, manual_download)" option="close" />
         <setting label="32119" type="lsep" /> <!-- Tvheadend -->
         <setting id="use_local_sock" type="bool" label="32120" default="false" /><!-- Tvheadend Sock -->
         <setting id="tvh_local_sock" type="file" label="32121" default="" visible="eq(-1,true)"/>
-    </category>
-
-    <category label="32100"> <!-- Misc Settings -->
-        <setting label="32101" type="lsep"/> <!-- Manual Download -->
-        <setting id="manual_download" type="action" label="32102" action="RunScript(service.takealug.epg-grabber, manual_download)" option="close" />
         <setting id="write_to_sock" type="action" label="32103" action="RunScript(service.takealug.epg-grabber, write_to_sock)" option="close"/>
     </category>
 

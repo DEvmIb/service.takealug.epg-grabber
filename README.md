@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/DeBaschdi/service.takealug.epg-grabber/master/icon.png" height="32" width="32">
+<img src="https://raw.githubusercontent.com/DEvmIb/service.takealug.epg-grabber/master/icon.png" height="32" width="32">
 
 # service.takealug.epg-grabber
 This is an easy-to-use kodi addon which grabs epg data from various providers and creates a guide.xml from it

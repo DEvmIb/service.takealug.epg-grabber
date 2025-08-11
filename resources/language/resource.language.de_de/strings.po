@@ -2,14 +2,14 @@
 # Addon Name: Takealug EPG Grabber
 # Addon id: service.takealug.epg-grabber
 # Addon version: 0.0.7
-# Addon Provider: DeBaschdi
+# Addon Provider: DeBaschdi, Ad0lar
 msgid ""
 msgstr ""
 "Project-Id-Version: XBMC-Addons\n"
 "Report-Msgid-Bugs-To: alanwww1@xbmc.org\n"
 "POT-Creation-Date: 2020-05-01 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Bastian Kleinschmidt\n"
+"Last-Translator: Ad0lar\n"
 "Language-Team: LANGUAGE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,8 +32,8 @@ msgstr "Grabbt EPG Daten von verschiedenen IPTV Quellen und erstellt eine guide.
 ## Misc Settings ## 32100 -32109
 
 msgctxt "#32100"
-msgid "Misc Settings"
-msgstr "Verschiedene Einstellungen"
+msgid "EPG Actions"
+msgstr "EPG Aktionen"
 
 msgctxt "#32101"
 msgid "Manual EPG Download"
@@ -143,8 +143,8 @@ msgid "Provider Horizon"
 msgstr "Provider Horizon"
 
 msgctxt "#32138"
-msgid "Provider Zattoo"
-msgstr "Provider Zattoo"
+msgid "Zattoo"
+msgstr "Zattoo"
 
 # Provider Specific 32140 -32299
 
@@ -663,3 +663,11 @@ msgstr "Lade Manifest Daten für Tag"
 #####################################
 # List Items, Labels 32550 -32599   #
 #####################################
+
+#####################################
+# just continue since 1.1.9         #
+#####################################
+
+msgctxt "#32600"
+msgid "XMLTV"
+msgstr "XMLTV"
