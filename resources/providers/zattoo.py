@@ -45,8 +45,8 @@ def get_settings(grabber):
     provider_temppath = os.path.join(temppath, zttdict[grabber][2])
 
     # EIT Genre + Rytec Format Mapping Files
-    ztt_genres_json = os.path.join(provider_temppath, 'ztt_genres.json')
-    ztt_channels_json = os.path.join(provider_temppath, 'ztt_channels.json')
+    ztt_genres_json = os.path.join(addon_path, 'resources', 'config_files', 'ztt_genres.json')
+    ztt_channels_json = os.path.join(addon_path, 'resources', 'config_files', 'ztt_channels.json')
 
     ## Log Files
     ztt_genres_warnings_tmp = os.path.join(provider_temppath, zttdict[grabber][3])
@@ -87,6 +87,7 @@ addon_name = ADDON.getAddonInfo('name')
 addon_version = ADDON.getAddonInfo('version')
 loc = ADDON.getLocalizedString
 datapath = xbmcvfs.translatePath(ADDON.getAddonInfo('profile'))
+addon_path=xbmcvfs.translatePath(ADDON.getAddonInfo('path'))
 temppath = os.path.join(datapath, "temp")
 
 ## Enable Multithread
@@ -97,9 +98,8 @@ if enable_multithread:
     except:
         pass
 
-## MAPPING Variables Thx @ sunsettrack4
-ztt_genres_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/master/ztt_genres.json'
-ztt_channels_url = 'https://raw.githubusercontent.com/sunsettrack4/config_files/master/ztt_channels.json'
+ztt_genres_json = os.path.join(addon_path, 'resources', 'config_files', 'ztt_genres.json')
+ztt_channels_json = os.path.join(addon_path, 'resources', 'config_files', 'ztt_channels.json')
 
 # Make a debug logger
 def log(message, loglevel=xbmc.LOGDEBUG):
@@ -633,11 +633,6 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
 def create_xml_channels(grabber):
     provider_temppath, ztt_genres_json, ztt_channels_json, ztt_genres_warnings_tmp, ztt_genres_warnings, ztt_channels_warnings_tmp, ztt_channels_warnings, days_to_grab, episode_format, channel_format, genre_format, ztt_chlist_provider_tmp, ztt_chlist_provider, ztt_chlist_selected, provider, lang, header, ztt_session, username, password = get_settings(grabber)
     log('{} {}'.format(provider, loc(32362)), xbmc.LOGINFO)
-    if channel_format == 'rytec':
-        ## Save ztt_channels.json to Disk
-        rytec_file = requests.get(ztt_channels_url).json()
-        with open(ztt_channels_json, 'w', encoding='utf-8') as rytec_list:
-            json.dump(rytec_file, rytec_list)
 
     with open(ztt_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
@@ -677,12 +672,6 @@ def create_xml_broadcast(grabber, enable_rating_mapper, thread_temppath, downloa
     download_multithread(thread_temppath, download_threads, grabber, ztt_chlist_selected, provider, provider_temppath, zttdict, days_to_grab, header, ztt_session)
 
     log('{} {}'.format(provider, loc(32365)), xbmc.LOGINFO)
-
-    if genre_format == 'eit':
-        ## Save ztt_genres.json to Disk
-        genres_file = requests.get(ztt_genres_url).json()
-        with open(ztt_genres_json, 'w', encoding='utf-8') as genres_list:
-            json.dump(genres_file, genres_list)
 
     with open(ztt_chlist_selected, 'r', encoding='utf-8') as c:
         selected_list = json.load(c)
