@@ -32,8 +32,8 @@ msgstr "Grabbt EPG Daten von verschiedenen IPTV Quellen und erstellt eine guide.
 ## Misc Settings ## 32100 -32109
 
 msgctxt "#32100"
-msgid "EPG Actions"
-msgstr "EPG Aktionen"
+msgid "EPG Output"
+msgstr "EPG Ziele"
 
 msgctxt "#32101"
 msgid "Manual EPG Download"
@@ -50,8 +50,8 @@ msgstr ""
 ## Global Settings ## 32110 - 32129
 
 msgctxt "#32110"
-msgid "Global Settings"
-msgstr "Globale Einstellungen"
+msgid "Settings"
+msgstr "Einstellungen"
 
 msgctxt "#32111"
 msgid "Automatic EPG Grab"
@@ -671,3 +671,11 @@ msgstr "Lade Manifest Daten für Tag"
 msgctxt "#32600"
 msgid "XMLTV"
 msgstr "XMLTV"
+
+msgctxt "#32601"
+msgid "Cron"
+msgstr "Zeitplaner"
+
+msgctxt "#32602"
+msgid "Get EPG from XMLTV Source"
+msgstr "EPG über XMLTV erhalten"

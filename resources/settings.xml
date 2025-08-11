@@ -201,16 +201,18 @@
         <setting id="eirIE_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
     </category>
 
-    <category label="32110"> <!-- Global Settings -->
+    <category label="32600"> <!-- EPG Actions -->
+        <setting label="32600" type="lsep"/> <!-- Swisscom (CH) -->
+        <setting id="use_xmltv" type="bool" label="32602" default="false" />
+    </category>
+
+    <category label="32601"> <!-- Cron -->
         <setting id="auto_download" type="bool" label="32112" default="false" />
         <setting id="timeswitch_1" type="enum" label="32113" default="0" values="$HOURS" enable="eq(-1,true)" /> <!-- Grab EPG Daily at 1-->
         <setting id="timeswitch_2" type="enum" label="32113" default="0" values="$HOURS" enable="eq(-2,true)" /> <!-- Grab EPG Daily at 2-->
         <setting id="timeswitch_3" type="enum" label="32113" default="0" values="$HOURS" enable="eq(-3,true)" /> <!-- Grab EPG Daily at 3-->
         <setting id="storage_path" type="folder" label="32116" default="choose" />
         <setting id="enable_rating_mapper" type="bool" label="32118" default="true" /><!-- Rating Mapper -->
-        <setting label="Multithread" type="lsep" /> <!-- Tvheadend -->
-        <setting id="enable_multithread" type="bool" label="32123" default="false" /><!-- Enable Multithread -->
-        <setting id="download_threads" type="select" label="32122" default="2" values="2|4|6|8|10|12|14|16" enable="eq(-1,true)" /> <!-- Number of concurrent downloads (threads) -->
     </category>
 
     <category label="32100"> <!-- EPG Actions -->
@@ -220,6 +222,12 @@
         <setting id="use_local_sock" type="bool" label="32120" default="false" /><!-- Tvheadend Sock -->
         <setting id="tvh_local_sock" type="file" label="32121" default="" visible="eq(-1,true)"/>
         <setting id="write_to_sock" type="action" label="32103" action="RunScript(service.takealug.epg-grabber, write_to_sock)" option="close"/>
+    </category>
+
+    <category label="32110"> <!-- Global Settings -->
+        <setting label="Multithread" type="lsep" /> <!-- Tvheadend -->
+        <setting id="enable_multithread" type="bool" label="32123" default="false" /><!-- Enable Multithread -->
+        <setting id="download_threads" type="select" label="32122" default="2" values="2|4|6|8|10|12|14|16" enable="eq(-1,true)" /> <!-- Number of concurrent downloads (threads) -->
     </category>
 
 </settings>

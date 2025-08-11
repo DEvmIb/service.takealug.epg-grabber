@@ -32,7 +32,7 @@ msgstr ""
 ## Misc Settings ## 32100 -32109
 
 msgctxt "#32100"
-msgid "EPG Actions"
+msgid "EPG Output"
 msgstr ""
 
 msgctxt "#32101"
@@ -50,7 +50,7 @@ msgstr ""
 ## Global Settings ## 32110 - 32129
 
 msgctxt "#32110"
-msgid "Global Settings"
+msgid "Settings"
 msgstr ""
 
 msgctxt "#32111"
@@ -665,4 +665,12 @@ msgstr ""
 
 msgctxt "#32600"
 msgid "XMLTV"
+msgstr ""
+
+msgctxt "#32601"
+msgid "Cron"
+msgstr ""
+
+msgctxt "#32602"
+msgid "Get EPG from XMLTV Source"
 msgstr ""
