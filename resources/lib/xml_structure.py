@@ -17,7 +17,7 @@ now = datetime.datetime.now()
 guide_temp = os.path.join(datapath, 'guide.xml')
 
 def xml_start():
-    copyright = '<?xml version="1.0" encoding="UTF-8" ?>\n<!DOCTYPE tv SYSTEM "xmltv.dtd">\n<!-- EPG XMLTV FILE CREATED BY Take-a-LUG TEAM- (c) 2020 Bastian Kleinschmidt -->\n<!-- created on {} -->\n<tv generator-info-name="Takealug EPG Grabber Ver. {}" generator-info-url="https://github.com/DeBaschdi/service.takealug.epg-grabber">\n'.format(str(now), addon_version)
+    copyright = '<?xml version="1.0" encoding="UTF-8" ?>\n<!DOCTYPE tv SYSTEM "xmltv.dtd">\n<!-- EPG XMLTV FILE CREATED BY service.takealug.epg-grabber -->\n<!-- created on {} -->\n<tv generator-info-name="Takealug EPG Grabber Ver. {}" generator-info-url="https://github.com/DEvmIb/service.takealug.epg-grabber">\n'.format(str(now), addon_version)
     with open(guide_temp, 'w', encoding='utf-8') as f:
         f.write(copyright)
 
