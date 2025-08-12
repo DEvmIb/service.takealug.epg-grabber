@@ -108,7 +108,7 @@ gracenote_session_cookie = os.path.join(provider_temppath, 'cookies.json')
 
 ## Get channel list(url)
 def get_channellist():
-
+    # todo: gracenote.json. if not in userdata then copy from resources.
     response = magenta_chlist_url.json()
 
     with open(gracenote_chlist_provider_tmp, 'w', encoding='utf-8') as provider_list_tmp:
