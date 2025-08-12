@@ -730,3 +730,11 @@ msgstr ""
 msgctxt "#32616"
 msgid "EPG to TCP Socket success"
 msgstr ""
+
+msgctxt "#32617"
+msgid "Gracenote (World)"
+msgstr ""
+
+msgctxt "#32618"
+msgid "Enable Gracenote (World)"
+msgstr ""

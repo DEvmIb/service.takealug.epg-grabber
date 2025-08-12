@@ -735,3 +735,11 @@ msgstr "Kann den EPG nicht in das TCP Socket schreiben"
 msgctxt "#32616"
 msgid "EPG to TCP Socket success"
 msgstr "EPG erfolgreich in das TCP Socket geschrieben"
+
+msgctxt "#32617"
+msgid "Gracenote (World)"
+msgstr "Gracenote (World)"
+
+msgctxt "#32618"
+msgid "Enable Gracenote (World)"
+msgstr "Gracenote (World)"

@@ -23,8 +23,12 @@
         <news lang="en"><![CDATA[
             1.1.9 ()
             - get rid of +matrix version info
-            - xmltv output set new gitub url
+            - xmltv output set new github url
             - zattoo use local config not github
+            - write epg data to tcp output
+            - import epg data from xmltv url
+            - rearange settings
+            - gracenote. only channels in resources/gracenote.json
             1.1.8 (2025-08-11)
             - overhauling the code  
             ]]>

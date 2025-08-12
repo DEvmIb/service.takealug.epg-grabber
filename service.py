@@ -16,6 +16,7 @@ from resources.lib import xml_structure
 from resources.providers import magenta_DE
 from resources.providers import swisscom_CH
 from resources.providers import zattoo
+from resources.providers import gracenote
 import sys
 import platform
 import importlib
@@ -177,6 +178,7 @@ def run_grabber():
         if check_startup():
             importlib.reload(xml_structure)
             importlib.reload(magenta_DE)
+            importlib.reload(gracenote)
             importlib.reload(swisscom_CH)
             importlib.reload(zattoo)
             xml_structure.xml_start()
