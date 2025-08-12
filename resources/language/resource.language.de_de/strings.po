@@ -44,8 +44,8 @@ msgid "Run EPG Grabber Manual"
 msgstr "Starte EPG Grabber Manuell"
 
 msgctxt "#32103"
-msgid "Write EPG in xmltv.sock"
-msgstr ""
+msgid "Send Now"
+msgstr "Jetzt ausführen"
 
 ## Global Settings ## 32110 - 32129
 
@@ -529,16 +529,16 @@ msgid "Initialize manual EPG Grab..."
 msgstr "Initialisiere manuellen EPG Grab...."
 
 msgctxt "#32378"
-msgid "No valid TVH Socked found, check Location"
-msgstr "Kein gültiges TVH Socked gefunden, überprüfe deine Einstellungen"
+msgid "No valid TVH Socket found, check Location"
+msgstr "Kein gültiges TVH Socket gefunden, überprüfe deine Einstellungen"
 
 msgctxt "#32379"
-msgid "Can´t write EPG in TVH Socked"
-msgstr "Kann den EPG nicht in das Socked schreiben"
+msgid "Can´t write EPG in TVH Socket"
+msgstr "Kann den EPG nicht in das TVHeadend Socket schreiben"
 
 msgctxt "#32380"
-msgid "Write EPG in TVH Socked..."
-msgstr "Schreibe epg in das TVH Socked..."
+msgid "Write EPG in TVH Socket..."
+msgstr "Schreibe epg in das TVH Socket..."
 
 msgctxt "#32381"
 msgid "Multithreading only works on Linux, please disable it."
@@ -609,8 +609,8 @@ msgid ""
 msgstr ""
 
 msgctxt "#32408"
-msgid "Write guide.xml now in Tvheadend socked ?"
-msgstr "Schreibe guide.xml jetzt in das TVH Socked ?"
+msgid "Write guide.xml now in Tvheadend socket ?"
+msgstr "Schreibe guide.xml jetzt in das TVH Socket ?"
 
 msgctxt "#32409"
 msgid "You must first activate the socket in the global settings, make sure that you have created a guide.xml"
@@ -699,3 +699,39 @@ msgstr "Starte XMLTV Download"
 msgctxt "#32607"
 msgid "XMLTV Download failed"
 msgstr "XMLTV Download fehlgeschlagen"
+
+msgctxt "#32608"
+msgid "Other"
+msgstr "Weiteres"
+
+msgctxt "#32609"
+msgid "Send EPG to TCP Socket"
+msgstr "Sende EPG an eine TCP Verbindung"
+
+msgctxt "#32610"
+msgid "IP/Host"
+msgstr "IP/Host"
+
+msgctxt "#32611"
+msgid "Port"
+msgstr "Port"
+
+msgctxt "#32612"
+msgid "Write EPG in TCP Socket..."
+msgstr "Schreibe epg in das TCP Socket..."
+
+msgctxt "#32613"
+msgid "Write guide.xml now in TCP socket ?"
+msgstr "Schreibe guide.xml jetzt in den TCP Socket ?"
+
+msgctxt "#32614"
+msgid "TCP"
+msgstr "TCP"
+
+msgctxt "#32615"
+msgid "Can´t write EPG in TCP Socket"
+msgstr "Kann den EPG nicht in das TCP Socket schreiben"
+
+msgctxt "#32616"
+msgid "EPG to TCP Socket success"
+msgstr "EPG erfolgreich in das TCP Socket geschrieben"

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# todo: old code when writing to xmlsock is reading full file im memory. use streaming
+# todo: the old code is not using try block. add it.
 import xbmc
 import xbmcaddon
 import xbmcvfs
@@ -46,6 +48,11 @@ timeswitch_2 = int(ADDON.getSetting('timeswitch_2'))
 timeswitch_3 = int(ADDON.getSetting('timeswitch_3'))
 enable_rating_mapper = True if ADDON.getSetting('enable_rating_mapper').upper() == 'TRUE' else False
 use_local_sock = True if ADDON.getSetting('use_local_sock').upper() == 'TRUE' else False
+
+use_local_tcp = True if ADDON.getSetting('use_local_tcp').upper() == 'TRUE' else False
+use_local_tcp_address = ADDON.getSetting('use_local_tcp_address')
+use_local_tcp_port = ADDON.getSetting('use_local_tcp_port')
+
 tvh_local_sock = ADDON.getSetting('tvh_local_sock')
 download_threads = int(ADDON.getSetting('download_threads'))
 enable_multithread = True if ADDON.getSetting('enable_multithread').upper() == 'TRUE' else False
@@ -307,6 +314,7 @@ def run_grabber():
                 ## Write Guide in TVH Socked
                 if use_local_sock:
                     write_to_sock(guide_temp)
+                    write_to_tcp(guide_temp)
                     
     if use_xmltv == True and xmltv_url:
         if check_startup():
@@ -338,6 +346,34 @@ def run_grabber():
                     os.remove(guide_xmltv_dl_temp)
             if use_local_sock:
                 write_to_sock(guide_xmltv_temp)
+                write_to_tcp(guide_xmltv_temp)
+                
+def write_to_tcp(file):
+    if check_startup() and use_local_tcp_port and use_local_tcp_address and use_local_tcp and os.path.isfile(file):
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        try:
+            log('{} {}'.format(loc(32612), tvh_local_sock), xbmc.LOGINFO)
+            notify(addon_name, loc(32612), icon=xbmcgui.NOTIFICATION_INFO)
+            sock.settimeout(10)
+            sock.connect((use_local_tcp_address, int(use_local_tcp_port)))
+            sock.settimeout(None)
+            with open(file, "rb") as f:
+                    while True:
+                        data = f.read(1024)
+                        if not data:
+                            break
+                        sock.send(data)
+            sock.close()
+            notify(addon_name, loc(32616), icon=xbmcgui.NOTIFICATION_INFO)
+        except socket.error as e:
+            notify(addon_name, '{} {}'.format(loc(32615), e), icon=xbmcgui.NOTIFICATION_ERROR)
+            log('{} {}'.format(loc(32615), e), xbmc.LOGERROR)
+        finally:
+            sock.close()
+    #else:
+    #    ok = dialog.ok(loc(32614), loc(32409))
+    #    if ok:
+    #        log(loc(32409), xbmc.LOGERROR)  
 
 def write_to_sock(file):
     if check_startup():
@@ -357,10 +393,10 @@ def write_to_sock(file):
             finally:
                 sock.close()
                 epg.close()
-        else:
-            ok = dialog.ok(loc(32119), loc(32409))
-            if ok:
-                log(loc(32409), xbmc.LOGERROR)
+        #else:
+        #    ok = dialog.ok(loc(32119), loc(32409))
+        #    if ok:
+        #        log(loc(32409), xbmc.LOGERROR)
 
 def worker(timeswitch_1, timeswitch_2, timeswitch_3):
     initiate_download = False
@@ -536,6 +572,11 @@ if __name__ == '__main__':
                 if ret:
                     write_to_sock(guide_temp)
                     write_to_sock(guide_xmltv_temp)
+            if sys.argv[1] == 'write_to_tcp':
+                ret = dialog.yesno(loc(32614), loc(32613))
+                if ret:
+                    write_to_tcp(guide_temp)
+                    write_to_tcp(guide_xmltv_temp)
 
         except IndexError:
             while not monitor.waitForAbort(30):

@@ -44,7 +44,7 @@ msgid "Run EPG Grabber Manual"
 msgstr ""
 
 msgctxt "#32103"
-msgid "Write EPG in xmltv.sock"
+msgid "Send Now"
 msgstr ""
 
 ## Global Settings ## 32110 - 32129
@@ -528,15 +528,15 @@ msgid "Initialize manual EPG Grab..."
 msgstr ""
 
 msgctxt "#32378"
-msgid "No valid TVH Socked found, check Location"
+msgid "No valid TVH Socket found, check Location"
 msgstr ""
 
 msgctxt "#32379"
-msgid "Can´t write EPG in TVH Socked"
+msgid "Can´t write EPG in TVH Socket"
 msgstr ""
 
 msgctxt "#32380"
-msgid "write EPG in TVH Socked..."
+msgid "write EPG in TVH Socket..."
 msgstr ""
 
 msgctxt "#32381"
@@ -604,7 +604,7 @@ msgid ""
 msgstr ""
 
 msgctxt "#32408"
-msgid "Write guide.xml now in Tvheadend socked ?"
+msgid "Write guide.xml now in Tvheadend socket ?"
 msgstr ""
 
 msgctxt "#32409"
@@ -693,4 +693,40 @@ msgstr ""
 
 msgctxt "#32607"
 msgid "XMLTV Download failed"
+msgstr ""
+
+msgctxt "#32608"
+msgid "Other"
+msgstr ""
+
+msgctxt "#32609"
+msgid "Send EPG to TCP Socket"
+msgstr ""
+
+msgctxt "#32610"
+msgid "IP/Host"
+msgstr ""
+
+msgctxt "#32611"
+msgid "Port"
+msgstr ""
+
+msgctxt "#32612"
+msgid "write EPG in TCP Socket..."
+msgstr ""
+
+msgctxt "#32613"
+msgid "Write guide.xml now in TCP socket ?"
+msgstr ""
+
+msgctxt "#32614"
+msgid "TCP"
+msgstr ""
+
+msgctxt "#32615"
+msgid "Can´t write EPG in TCP Socket"
+msgstr ""
+
+msgctxt "#32616"
+msgid "EPG to TCP Socket success"
 msgstr ""

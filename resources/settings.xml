@@ -221,7 +221,13 @@
         <setting label="32119" type="lsep" /> <!-- Tvheadend -->
         <setting id="use_local_sock" type="bool" label="32120" default="false" /><!-- Tvheadend Sock -->
         <setting id="tvh_local_sock" type="file" label="32121" default="" visible="eq(-1,true)"/>
-        <setting id="write_to_sock" type="action" label="32103" action="RunScript(service.takealug.epg-grabber, write_to_sock)" option="close"/>
+        <setting id="write_to_sock" type="action" label="32103" action="RunScript(service.takealug.epg-grabber, write_to_sock)" option="close" visible="eq(-2,true)" />
+        <setting label="32608" type="lsep" />
+        <setting id="use_local_tcp" type="bool" label="32609" default="false" />
+        <setting id="use_local_tcp_address" type="text" label="32610" visible="eq(-1,true)" subsetting="true" />
+        <setting id="use_local_tcp_port" type="number" label="32611" visible="eq(-2,true)" subsetting="true" />
+        <setting id="write_to_tcp" type="action" label="32103" action="RunScript(service.takealug.epg-grabber, write_to_tcp)" option="close" visible="eq(-3,true)" subsetting="true" />
+
     </category>
 
     <category label="32110"> <!-- Global Settings -->
