@@ -420,7 +420,7 @@ msgstr ""
 #####################################
 
 msgctxt "#32350"
-msgid "EPG File (guide.xml) Created"
+msgid "EPG File (%f) Created"
 msgstr ""
 
 msgctxt "#32351"
@@ -673,4 +673,24 @@ msgstr ""
 
 msgctxt "#32602"
 msgid "Get EPG from XMLTV Source"
+msgstr ""
+
+msgctxt "#32603"
+msgid "Providers"
+msgstr ""
+
+msgctxt "#32604"
+msgid "URL"
+msgstr ""
+
+msgctxt "#32605"
+msgid "XML Url eg. http://example.com/epg.xml"
+msgstr ""
+
+msgctxt "#32606"
+msgid "Starting XMLTV Download"
+msgstr ""
+
+msgctxt "#32607"
+msgid "XMLTV Download failed"
 msgstr ""

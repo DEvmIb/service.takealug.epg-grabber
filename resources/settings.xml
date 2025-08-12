@@ -1,5 +1,5 @@
 <settings>
-    <category label="32140"> <!-- Provider Settings -->
+    <category label="32603"> <!-- Provider Settings -->
         <setting label="32131" type="lsep"/> <!-- Provider Selection -->
         <setting label="32140" type="lsep"/> <!-- Magenta (DE) -->
         <setting id="enable_grabber_magentaDE" type="bool" label="32141" default="false" /><!-- Enable Magenta (DE)-->
@@ -8,8 +8,7 @@
         <setting id="magentaDE_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-3,false)" /> <!-- Channel Format -->
         <setting id="magentaDE_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-4,false)" /> <!-- Genre Format -->
         <setting id="magentaDE_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-5,false)" /> <!-- Days to Grab -->
-    </category>
-    <category label="32164">
+
         <setting label="32164" type="lsep"/> <!-- Swisscom (CH) -->
         <setting id="enable_grabber_swcCH" type="bool" label="32165" default="false" /><!-- Enable Swisscom (CH) -->
         <setting id="select_channels_swcCH" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_swcCH)" option="close" visible="!eq(-1,false)"/>
@@ -17,9 +16,7 @@
         <setting id="swcCH_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-3,false)" /> <!-- Channel Format -->
         <setting id="swcCH_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-4,false)" /> <!-- Genre Format -->
         <setting id="swcCH_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-5,false)" /> <!-- Days to Grab -->
-    </category>
 
-    <category label="32138"> <!-- Provider Zattoo Settings -->
         <setting label="32168" type="lsep"/> <!-- Zattoo (DE) -->
         <setting id="enable_grabber_zttDE" type="bool" label="32169" default="false" /><!-- Enable Zattoo (DE) -->
         <setting id="zttDE_username" label="32204" type="text" default="" visible="!eq(-1,false)" />
@@ -201,9 +198,12 @@
         <setting id="eirIE_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-7,false)" /> <!-- Days to Grab -->
     </category>
 
-    <category label="32600"> <!-- EPG Actions -->
+    <category label="32600"> <!-- XMLTV INPUT -->
         <setting label="32600" type="lsep"/> <!-- Swisscom (CH) -->
         <setting id="use_xmltv" type="bool" label="32602" default="false" />
+        <setting label="32605" type="lsep"/>
+        <setting id="xmltv_url" type="text" label="32604" enable="eq(-2,true)" />
+        
     </category>
 
     <category label="32601"> <!-- Cron -->

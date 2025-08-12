@@ -421,8 +421,8 @@ msgstr "Passwort"
 #####################################
 
 msgctxt "#32350"
-msgid "EPG File (guide.xml) Created"
-msgstr "EPG Datei (guide.xml) Erstellt!"
+msgid "EPG File (%f) Created"
+msgstr "EPG Datei (%f) Erstellt!"
 
 msgctxt "#32351"
 msgid "Can not copy guide.xml to Destination!"
@@ -679,3 +679,23 @@ msgstr "Zeitplaner"
 msgctxt "#32602"
 msgid "Get EPG from XMLTV Source"
 msgstr "EPG über XMLTV erhalten"
+
+msgctxt "#32603"
+msgid "Providers"
+msgstr "Anbieter"
+
+msgctxt "#32604"
+msgid "URL"
+msgstr "Adresse"
+
+msgctxt "#32605"
+msgid "XML Url eg. http://example.com/epg.xml"
+msgstr ""
+
+msgctxt "#32606"
+msgid "Starting XMLTV Download"
+msgstr "Starte XMLTV Download"
+
+msgctxt "#32607"
+msgid "XMLTV Download failed"
+msgstr "XMLTV Download fehlgeschlagen"
