@@ -743,3 +743,11 @@ msgstr "Gracenote (World)"
 msgctxt "#32618"
 msgid "Enable Gracenote (World)"
 msgstr "Gracenote (World)"
+
+msgctxt "#32619"
+msgid "ApiKey"
+msgstr "ApiKey"
+
+msgctxt "#32620"
+msgid "Select Rating System"
+msgstr "Altersfreigabe"

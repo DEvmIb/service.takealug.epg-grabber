@@ -19,7 +19,8 @@ from resources.lib import mapper
 from resources.lib import filesplit
 
 provider = 'Gracenote (World)'
-lang = 'multi'
+# we use lang per channel
+#lang = 'multi'
 
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
@@ -38,8 +39,10 @@ if enable_multithread:
     except:
         pass
 
-tkm_genres_json = os.path.join(addon_path, 'resources', 'config_files', 'tkm_genres.json')
-tkm_channels_json = os.path.join(addon_path, 'resources', 'config_files', 'tkm_channels.json')
+gn_genres_json = os.path.join(addon_path, 'resources', 'config_files', 'gn_genres.json')
+gn_channels_json = os.path.join(addon_path, 'resources', 'config_files', 'gn_channels.json')
+gn_ratings_json = os.path.join(datapath, 'gn_ratings.json')
+gn_ratings_dist = os.path.join(addon_path, 'resources', 'gn_ratings.json')
 
 ## Log Files
 gracenote_genres_warnings_tmp = os.path.join(provider_temppath, 'gracenote_genres_warnings.txt')
@@ -47,13 +50,24 @@ gracenote_genres_warnings = os.path.join(temppath, 'gracenote_genres_warnings.tx
 gracenote_channels_warnings_tmp = os.path.join(provider_temppath, 'gracenote_channels_warnings.txt')
 gracenote_channels_warnings = os.path.join(temppath, 'gracenote_channels_warnings.txt')
 
-## Read Magenta DE Settings
+
+
+
 days_to_grab = int(ADDON.getSetting('gracenote_days_to_grab'))
 episode_format = ADDON.getSetting('gracenote_episode_format')
 channel_format = ADDON.getSetting('gracenote_channel_format')
 genre_format = ADDON.getSetting('gracenote_genre_format')
+gracenote_key = ADDON.getSetting('gracenote_key')
+gracenote_rating_system = ADDON.getSetting('gracenote_rating_system')
 
-
+if not os.path.exists(gn_ratings_json):
+    done = xbmcvfs.copy(gn_ratings_dist, gn_ratings_json)
+    ADDON.setSetting('gracenote_rating_system', 'Freiwillige Selbstkontrolle Fernsehen')
+    gracenote_rating_system = 'Freiwillige Selbstkontrolle Fernsehen'
+    
+with open(gn_ratings_json, 'r', encoding='utf-8') as gn_rating_list_tmp:
+        gn_ratings = json.load(gn_rating_list_tmp)
+        
 # Make a debug logger
 def log(message, loglevel=xbmc.LOGDEBUG):
     xbmc.log('[{} {}] {}'.format(addon_name, addon_version, message), loglevel)
@@ -77,47 +91,30 @@ def get_epgLength(days_to_grab):
     calc_then = datetime(today.year, today.month, today.day, hour=23, minute=59, second=59)
     calc_then += timedelta(days=days_to_grab)
 
-    starttime = calc_today.strftime("%Y%m%d%H%M%S")
-    endtime = calc_then.strftime("%Y%m%d%H%M%S")
+    #2025-08-14T06:00Z
+    starttime = calc_today.strftime("%Y-%m-%dT%H:%MZ")
+    endtime = calc_then.strftime("%Y-%m-%dT%H:%MZ")
 
     return starttime, endtime
 
 ## Channel Files
+gracenote_base = os.path.join(datapath,  'gracenote.json')
+gracenote_dist = os.path.join(addon_path, 'resources', 'gracenote.json')
 gracenote_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_gracenote_provider_tmp.json')
 gracenote_chlist_provider = os.path.join(provider_temppath, 'chlist_gracenote_provider.json')
 gracenote_chlist_selected = os.path.join(datapath, 'chlist_gracenote_selected.json')
 
-gracenote_authenticate_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/Authenticate'
-gracenote_channellist_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/AllChannel'
-gracenote_data_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/PlayBillList?userContentFilter=241221015&sessionArea=1&SID=ottall&T=PC_firefox_75'
-
-gracenote_authenticate = '{"areaid":"1","cnonce":"c4b11948545fb3089720dd8b12c81f8e","mac":"'+mac+'","preSharedKeyID":"NGTV000001","subnetId":"4901","templatename":"NGTV","terminalid":"'+ter+'","terminaltype":"WEB-MTV","terminalvendor":"WebTV","timezone":"UTC","usergroup":"-1","userType":3,"utcEnable":1}'
-gracenote_get_chlist = {'properties': [{'name': 'logicalChannel','include': '/channellist/logicalChannel/contentId,/channellist/logicalChannel/name,/channellist/logicalChannel/pictures/picture/imageType,/channellist/logicalChannel/pictures/picture/href'}],'metaDataVer': 'Channel/1.1', 'channelNamespace': '2','filterlist': [{'key': 'IsHide', 'value': '-1'}], 'returnSatChannel': '0'}
-gracenote_header = {'Host': 'api.prod.sngtv.magentatv.de',
-                    'origin': 'https://web.magentatv.de',
-                    'referer': 'https://web.magentatv.de/',
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36',
-                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                    'Accept-Language': 'de,en-US;q=0.7,en;q=0.3',
-                    'Accept-Encoding': 'gzip, deflate, br',
-                    'Connection': 'keep-alive',
-                    'Upgrade-Insecure-Requests': '1'}
-
-gracenote_session_cookie = os.path.join(provider_temppath, 'cookies.json')
-
+if not os.path.isfile(gracenote_base):
+    # todo try
+    done = xbmcvfs.copy(gracenote_dist, gracenote_base)
 
 ## Get channel list(url)
 def get_channellist():
-    # todo: gracenote.json. if not in userdata then copy from resources.
-    response = magenta_chlist_url.json()
+    if not os.path.isfile(gracenote_base):
+        # todo try
+        done = xbmcvfs.copy(gracenote_dist, gracenote_base)
 
-    with open(gracenote_chlist_provider_tmp, 'w', encoding='utf-8') as provider_list_tmp:
-        json.dump(response, provider_list_tmp)
-
-    #### Transform gracenote_chlist_provider_tmp to Standard chlist Format as gracenote_chlist_provider
-
-    # Load Channellist from Provider
-    with open(gracenote_chlist_provider_tmp, 'r', encoding='utf-8') as provider_list_tmp:
+    with open(gracenote_base, 'r', encoding='utf-8') as provider_list_tmp:
         gracenote_channels = json.load(provider_list_tmp)
 
     # Create empty new hznDE_chlist_provider
@@ -135,12 +132,13 @@ def get_channellist():
         for channels in gracenote_channels['channellist']:
             ch_id = channels['contentId']
             ch_title = channels['name']
+            ch_lang = channels['lang']
             for image in channels['pictures']:
-                if image['imageType'] == '15':
-                    hdimage = image['href']
+                hdimage = image['href']
             # channel to be appended
             y = {"contentId": ch_id,
                  "name": ch_title,
+                 "lang": ch_lang,
                  "pictures": [{"href": hdimage}]}
 
             # appending channels to data['channellist']
@@ -204,6 +202,27 @@ def select_channels():
             else:
                 xbmcvfs.delete(gracenote_chlist_selected)
                 exit()
+                
+def select_rating():
+    dialog = xbmcgui.Dialog()
+    items = list()
+    
+    #selected = list()
+    index = 0
+    index_sel = 0
+    gn_ratings_sorted = {k: gn_ratings[k] for k in sorted(gn_ratings)}
+    for item in gn_ratings_sorted:
+        if item == ADDON.getSetting('gracenote_rating_system'):
+            index_sel=index
+        descriptor = xbmcgui.ListItem(label=item)
+        items.append(descriptor)
+        index += 1
+        
+    selected = xbmcgui.Dialog().select('{} ]-{}-['.format(provider,loc(32620)), items, preselect=index_sel)
+    if selected > -1:
+        log(f'selected: {items[selected].getLabel()}',2)
+        log(f'selected: {selected}',2)
+        ADDON.setSetting('gracenote_rating_system', items[selected].getLabel())
 
 def check_selected_list():
     check = 'invalid'
@@ -223,7 +242,7 @@ def download_multithread(thread_temppath, download_threads):
         if f.endswith('_broadcast.json'):
             xbmcvfs.delete(os.path.join(provider_temppath, f))
 
-    gracenote_session()
+  
     list = os.path.join(provider_temppath, 'list.txt')
     splitname = os.path.join(thread_temppath, 'chlist_gracenote_selected')
     starttime, endtime = get_epgLength(days_to_grab)
@@ -273,12 +292,6 @@ def download_thread(gracenote_chlist_selected, multi, list, starttime, endtime):
     requests.adapters.DEFAULT_RETRIES = 5
     session = requests.Session()
 
-    ## Load Cookies from Disk
-    with open(gracenote_session_cookie, 'r', encoding='utf-8') as f:
-        session.cookies = requests.utils.cookiejar_from_dict(json.load(f))
-    magenta_CSRFToken = session.cookies["CSRFSESSION"]
-    session.headers.update({'X_CSRFToken': magenta_CSRFToken})
-
     with open(gracenote_chlist_selected, 'r', encoding='utf-8') as s:
         selected_list = json.load(s)
 
@@ -291,14 +304,13 @@ def download_thread(gracenote_chlist_selected, multi, list, starttime, endtime):
     for user_item in selected_list['channellist']:
         contentID = user_item['contentId']
         channel_name = user_item['name']
-        gracenote_data = {'channelid': contentID, 'type': '2', 'offset': '0', 'count': '-1', 'isFillProgram': '1','properties': '[{"name":"playbill","include":"ratingForeignsn,id,channelid,name,subName,starttime,endtime,cast,casts,country,producedate,ratingid,pictures,type,introduce,foreignsn,seriesID,genres,subNum,seasonNum"}]','endtime': endtime, 'begintime': starttime}
-        response = session.post(gracenote_data_url, data=json.dumps(gracenote_data), headers=gracenote_header)
+
+        response = session.get(f"http://data.tmsapi.com/v1.1/stations/{contentID}/airings?startDateTime={starttime}&endDateTime={endtime}&imageSize=Md&imageAspectTV=16x9&api_key={gracenote_key}")
         response.raise_for_status()
-        tkm_data = response.json()
+        gn_data = response.json()
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'w', encoding='utf-8') as playbill:
-            json.dump(tkm_data, playbill)
-
+            json.dump(gn_data, playbill)
         ## Create a List with downloaded channels
         last_channel_name = '{}\n'.format(channel_name)
         with open(list, 'a', encoding='utf-8') as f:
@@ -337,13 +349,14 @@ def create_xml_channels():
         channel_name = user_item['name']
         channel_icon = user_item['pictures'][0]['href']
         channel_id = channel_name
+        lang = user_item['lang']
         pDialog.update(int(percent_completed), '{} {} '.format(loc(32502),channel_name),'{} {} {}'.format(int(percent_remain),loc(32501),provider))
         if str(percent_completed) == str(100):
             log('{} {}'.format(provider,loc(32364)), xbmc.LOGINFO)
 
         ## Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, tkm_channels_json, gracenote_channels_warnings_tmp, lang)
+            channel_id = mapper.map_channels(channel_id, channel_format, gn_channels_json, gracenote_channels_warnings_tmp, lang)
 
         ## Create XML Channel Information with provided Variables
         xml_structure.xml_channels(channel_name, channel_id, channel_icon, lang)
@@ -373,6 +386,7 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
         contentID = user_item['contentId']
         channel_name = user_item['name']
         channel_id = channel_name
+        lang = user_item['lang']
         pDialog.update(int(percent_completed), '{} {} '.format(loc(32503), channel_name), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
         if str(percent_completed) == str(100):
             log('{} {}'.format(provider, loc(32366)), xbmc.LOGINFO)
@@ -383,81 +397,107 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
 
         ### Map Channels
         if not channel_id == '':
-            channel_id = mapper.map_channels(channel_id, channel_format, tkm_channels_json, gracenote_channels_warnings_tmp, lang)
-
+            channel_id = mapper.map_channels(channel_id, channel_format, gn_channels_json, gracenote_channels_warnings_tmp, lang)
         try:
-            for playbilllist in broadcastfiles['playbilllist']:
+            for prg in broadcastfiles:
+                epg=prg["program"]
                 try:
-                    item_title = playbilllist['name']
+                    item_title = epg['title']
                 except (KeyError, IndexError):
                     item_title = ''
                 try:
-                    item_starttime = playbilllist['starttime']
+                    item_starttime = prg['startTime']
                 except (KeyError, IndexError):
                     item_starttime = ''
                 try:
-                    item_endtime = playbilllist['endtime']
+                    item_endtime = prg['endTime']
                 except (KeyError, IndexError):
                     item_endtime = ''
                 try:
-                    item_description = playbilllist['introduce']
+                    item_description = epg['shortDescription']
                 except (KeyError, IndexError):
                     item_description = ''
                 try:
-                    item_country = playbilllist['country']
+                    item_long_description = epg['longDescription']
+                except (KeyError, IndexError):
+                    item_long_description = ''
+                try:
+                    item_country = epg['titleLang']
                 except (KeyError, IndexError):
                     item_country = ''
                 try:
-                    item_picture = playbilllist['pictures'][1]['href']
+                   item_picture = epg['preferredImage']['uri']
                 except (KeyError, IndexError):
-                    item_picture = ''
+                    item_picture = ""    
                 try:
-                    item_subtitle = playbilllist['subName']
+                    item_subtitle = epg['episodeTitle']
                 except (KeyError, IndexError):
                     item_subtitle = ''
                 try:
-                    items_genre = playbilllist['genres']
+                    items_genre = epg['genres']
                 except (KeyError, IndexError):
                     items_genre = ''
                 try:
-                    item_date = playbilllist['producedate']
+                    item_date = epg['releaseYear']
                 except (KeyError, IndexError):
                     item_date = ''
                 try:
-                    item_season = playbilllist['seasonNum']
+                    item_season = epg['seasonNum']
                 except (KeyError, IndexError):
                     item_season = ''
                 try:
-                    item_episode = playbilllist['subNum']
+                    item_episode = epg['episodeNum']
                 except (KeyError, IndexError):
                     item_episode = ''
                 try:
-                    item_agerating = playbilllist['ratingid']
+                    if epg['ratings']:
+                        for ratings in epg['ratings']:
+                            if not ratings["body"] in gn_ratings:
+                                log("new rating system: {}".format(ratings["body"]), 2)
+                                gn_ratings[ratings["body"]] = ratings["body"]
+                                with open(gn_ratings_json, 'w', encoding='utf-8') as w:
+                                    w.write(json.dumps(gn_ratings))
+                            if ("Freiwillige" in ADDON.getSetting('gracenote_rating_system') and "Freiwillige" in ratings["body"]):
+                                item_agerating = ratings["code"]
+                                break
+                            elif ratings["body"] == ADDON.getSetting('gracenote_rating_system'):
+                                item_agerating = ratings["code"]
+                                break
+                        else:
+                            item_agerating = ""
                 except (KeyError, IndexError):
                     item_agerating = ''
                 try:
-                    items_director = playbilllist['cast']['director']
+                    # array
+                    items_director = ','.join(epg['directors'])
                 except (KeyError, IndexError):
                     items_director = ''
+                # not available
+                #try:
+                #    items_producer = prg['cast']['producer']
+                #except (KeyError, IndexError):
+                items_producer = ''
                 try:
-                    items_producer = playbilllist['cast']['producer']
-                except (KeyError, IndexError):
-                    items_producer = ''
-                try:
-                    items_actor = playbilllist['cast']['actor']
+                    # array
+                    items_actor = ','.join(epg['topCast'])
                 except (KeyError, IndexError):
                     items_actor = ''
 
                 # Transform items to Readable XML Format
                 item_starrating = ''
-                if not item_date == '':
-                    item_date = item_date.split('-')
-                    item_date = item_date[0]
+                #if not item_date == '':
+                #    item_date = item_date.split('-')
+                #    item_date = item_date[0]
                 if (not item_starttime == '' and not item_endtime == ''):
-                    start = item_starttime.split(' UTC')
-                    item_starttime = start[0].replace(' ', '').replace('-', '').replace(':', '')
-                    stop = item_endtime.split(' UTC')
-                    item_endtime = stop[0].replace(' ', '').replace('-', '').replace(':', '')
+                    # in: 2025-08-14T06:00Z
+                    # out: 20250815091000 +0000
+                    item_starttime = f"{item_starttime.replace('-','').replace(':','').replace('T','')[:-1]}00"
+                    item_endtime = f"{item_endtime.replace('-','').replace(':','').replace('T','')[:-1]}00"
+                #    start = item_starttime.split(' UTC')
+                #    item_starttime = start[0].replace(' ', '').replace('-', '').replace(':', '')
+                #    stop = item_endtime.split(' UTC')
+                #    item_endtime = stop[0].replace(' ', '').replace('-', '').replace(':', '')
+                
                 if not item_country == '':
                     item_country = item_country.upper()
                 if item_agerating == '-1':
@@ -465,24 +505,24 @@ def create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads
 
                 # Map Genres
                 if not items_genre == '':
-                    items_genre = mapper.map_genres(items_genre, genre_format, tkm_genres_json, gracenote_genres_warnings_tmp, lang)
+                    items_genre = mapper.map_genres(','.join(items_genre), genre_format, gn_genres_json, gracenote_genres_warnings_tmp, "GLOBAL")
 
                 ## Create XML Broadcast Information with provided Variables
                 xml_structure.xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_endtime,
                                             item_description, item_country, item_picture, item_subtitle, items_genre,
                                             item_date, item_season, item_episode, item_agerating, item_starrating, items_director,
-                                            items_producer, items_actor, enable_rating_mapper, lang)
+                                            items_producer, items_actor, enable_rating_mapper, lang, item_long_description)
 
         except (KeyError, IndexError):
             log('{} {} {} {} {} {}'.format(provider,loc(32367),channel_name,loc(32368),contentID,loc(32369)))
     pDialog.close()
 
     ## Create Channel Warnings Textile
-    channel_pull = '\nPlease Create an Pull Request for Missing Rytec Id´s for tkm_channels.json on https://www.kodinerds.net/thread/64901\n'
+    channel_pull = '\nPlease Create an Pull Request for Missing Rytec Id´s for gn_channels.json on https://www.kodinerds.net/thread/64901\n'
     mapper.create_channel_warnings(gracenote_channels_warnings_tmp, gracenote_channels_warnings, provider, channel_pull)
 
     ## Create Genre Warnings Textfile
-    genre_pull = '\nPlease Create an Pull Request for Missing EIT Genres for tkm_genres.json on https://www.kodinerds.net/thread/64901\n'
+    genre_pull = '\nPlease Create an Pull Request for Missing EIT Genres for gn_genres.json on https://www.kodinerds.net/thread/64901\n'
     mapper.create_genre_warnings(gracenote_genres_warnings_tmp, gracenote_genres_warnings, provider, genre_pull)
 
     notify(addon_name, '{} {} {}'.format(loc(32370),provider,loc(32371)), icon=xbmcgui.NOTIFICATION_INFO)
@@ -537,5 +577,9 @@ def startup():
 try:
     if sys.argv[1] == 'select_channels_gracenote':
         select_channels()
+        xbmcaddon.Addon(id='service.takealug.epg-grabber').openSettings()
+    if sys.argv[1] == 'select_rating_gracenote':
+        select_rating()
+        xbmcaddon.Addon(id='service.takealug.epg-grabber').openSettings()
 except IndexError:
     pass

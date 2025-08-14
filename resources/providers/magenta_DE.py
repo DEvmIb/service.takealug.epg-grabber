@@ -318,6 +318,7 @@ def download_thread(magentaDE_chlist_selected, multi, list, starttime, endtime):
         magentaDE_data = {'channelid': contentID, 'type': '2', 'offset': '0', 'count': '-1', 'isFillProgram': '1','properties': '[{"name":"playbill","include":"ratingForeignsn,id,channelid,name,subName,starttime,endtime,cast,casts,country,producedate,ratingid,pictures,type,introduce,foreignsn,seriesID,genres,subNum,seasonNum"}]','endtime': endtime, 'begintime': starttime}
         response = session.post(magentaDE_data_url, data=json.dumps(magentaDE_data), headers=magentaDE_header)
         response.raise_for_status()
+        xbmc.log(json.dumps(response.json()),2)
         tkm_data = response.json()
         broadcast_files = os.path.join(provider_temppath, '{}_broadcast.json'.format(contentID))
         with open(broadcast_files, 'w', encoding='utf-8') as playbill:

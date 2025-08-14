@@ -37,7 +37,11 @@ def select_channels(provider,provider_list,selected_list):
     selected = list()
     index = 0
     for channel in provider_list.get('channellist', []):
-        descriptor = xbmcgui.ListItem(label=channel['name'])
+        if "lang" in channel:
+            ch_label=f"{channel['name']} ({channel['lang']})"
+        else:
+            ch_label=channel['name']
+        descriptor = xbmcgui.ListItem(label=ch_label)
         descriptor.setArt({'icon': channel['pictures'][0]['href']})
         descriptor.setProperty('item', json.dumps(channel))
         for user_item in selected_list.get('channellist', []):

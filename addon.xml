@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="service.takealug.epg-grabber" name="Takealug EPG Grabber" version="1.1.9" provider-name="DeBaschdi, Ad0lar">
+<addon id="service.takealug.epg-grabber" name="Takealug EPG Grabber" version="1.1.9~beta1" provider-name="DeBaschdi, Ad0lar">
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
         <import addon="script.module.requests" />
@@ -21,14 +21,14 @@
             <screenshot>screenshot2.png</screenshot>
         </assets>
         <news lang="en"><![CDATA[
-            1.1.9 ()
+            1.1.9~beta1 ()
             - get rid of +matrix version info
             - xmltv output set new github url
-            - zattoo use local config not github
-            - write epg data to tcp output
+            - use local config not github
+            - write epg data to tcp socket
             - import epg data from xmltv url
-            - rearange settings
-            - gracenote. only channels in resources/gracenote.json
+            - rearrange settings
+            - gracenote
             1.1.8 (2025-08-11)
             - overhauling the code  
             ]]>

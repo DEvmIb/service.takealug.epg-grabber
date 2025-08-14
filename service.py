@@ -64,6 +64,7 @@ xmltv_url = ADDON.getSetting('xmltv_url')
 
 ## Get Enabled Grabbers
 # Divers
+enable_grabber_gracenote = True if ADDON.getSetting('enable_grabber_gracenote').upper() == 'TRUE' else False
 enable_grabber_magentaDE = True if ADDON.getSetting('enable_grabber_magentaDE').upper() == 'TRUE' else False
 enable_grabber_swcCH = True if ADDON.getSetting('enable_grabber_swcCH').upper() == 'TRUE' else False
 # Zattoo
@@ -87,7 +88,7 @@ enable_grabber_swbDE = True if ADDON.getSetting('enable_grabber_swbDE').upper() 
 enable_grabber_eirIE = True if ADDON.getSetting('enable_grabber_eirIE').upper() == 'TRUE' else False
 
 # Check if any Grabber is enabled
-if (enable_grabber_magentaDE or enable_grabber_swcCH or enable_grabber_zttDE or enable_grabber_zttCH or enable_grabber_1und1DE or enable_grabber_qlCH or enable_grabber_mnetDE or enable_grabber_walyCH or enable_grabber_mweltAT or enable_grabber_bbvDE or enable_grabber_vtxCH or enable_grabber_myvisCH or enable_grabber_gvisCH or enable_grabber_sakCH or enable_grabber_nettvDE or enable_grabber_eweDE or enable_grabber_qttvCH or enable_grabber_saltCH or enable_grabber_swbDE or enable_grabber_eirIE):
+if (enable_grabber_gracenote or enable_grabber_magentaDE or enable_grabber_swcCH or enable_grabber_zttDE or enable_grabber_zttCH or enable_grabber_1und1DE or enable_grabber_qlCH or enable_grabber_mnetDE or enable_grabber_walyCH or enable_grabber_mweltAT or enable_grabber_bbvDE or enable_grabber_vtxCH or enable_grabber_myvisCH or enable_grabber_gvisCH or enable_grabber_sakCH or enable_grabber_nettvDE or enable_grabber_eweDE or enable_grabber_qttvCH or enable_grabber_saltCH or enable_grabber_swbDE or enable_grabber_eirIE):
     enabled_grabber = True
 else:
     enabled_grabber = False
@@ -183,6 +184,9 @@ def run_grabber():
             importlib.reload(zattoo)
             xml_structure.xml_start()
             ## Check Provider , Create XML Channels
+            if enable_grabber_gracenote:
+                if gracenote.startup():
+                    gracenote.create_xml_channels()
             if enable_grabber_magentaDE:
                 if magenta_DE.startup():
                     magenta_DE.create_xml_channels()
@@ -248,6 +252,9 @@ def run_grabber():
             if check_channel_dupes():
 
                 ## Create XML Broadcast
+                if enable_grabber_gracenote:
+                    if gracenote.startup():
+                        gracenote.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)
                 if enable_grabber_magentaDE:
                     if magenta_DE.startup():
                         magenta_DE.create_xml_broadcast(enable_rating_mapper, thread_temppath, download_threads)

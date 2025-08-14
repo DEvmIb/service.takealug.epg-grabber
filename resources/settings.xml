@@ -5,11 +5,12 @@
         <setting label="32617" type="lsep"/> <!-- gracenote -->
         <setting id="enable_grabber_gracenote" type="bool" label="32618" default="false" /><!-- Enable Magenta (DE)-->
         <setting id="select_channels_gracenote" type="action" label="32136" action="RunScript(service.takealug.epg-grabber, select_channels_gracenote)" option="close" visible="!eq(-1,false)"/>
-        <setting id="gracenote_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-2,false)" /> <!-- Episode Format -->
-        <setting id="gracenote_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-3,false)" /> <!-- Channel Format -->
-        <setting id="gracenote_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-4,false)" /> <!-- Genre Format -->
-        <setting id="gracenote_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-5,false)" /> <!-- Days to Grab -->
-
+        <setting id="gracenote_key" type="text" label="32619" visible="!eq(-2,false)" />
+        <setting id="gracenote_episode_format" type="select" label="32132" default="xmltv_ns" values="xmltv_ns|onscreen" visible="!eq(-3,false)" /> <!-- Episode Format -->
+        <setting id="gracenote_channel_format" type="select" label="32133" default="rytec" values="rytec|provider" visible="!eq(-4,false)" /> <!-- Channel Format -->
+        <setting id="gracenote_genre_format" type="select" label="32134" default="eit" values="eit|provider" visible="!eq(-5,false)" /> <!-- Genre Format -->
+        <setting id="gracenote_days_to_grab" type="select" label="32135" default="1" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14" visible="!eq(-6,false)" /> <!-- Days to Grab -->
+        <setting id="gracenote_rating_system" type="action" label="32620" action="RunScript(service.takealug.epg-grabber, select_rating_gracenote)" option="close" visible="!eq(-7,false)"/>
 
         <setting label="32140" type="lsep"/> <!-- Magenta (DE) -->
         <setting id="enable_grabber_magentaDE" type="bool" label="32141" default="false" /><!-- Enable Magenta (DE)-->

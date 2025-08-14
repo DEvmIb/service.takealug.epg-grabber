@@ -1,12 +1,24 @@
 {
-    "atv":{
-        "name": "ATV (at)",
-        "id":88174,
-        "logo":"https://ondemo.tmsimg.com/assets/s88174_ll_h15_ab.png?w=360&h=270"
-    },
-    "atv2":{
-        "name": "ATV2 (at)",
-        "id":101672,
-        "logo":"https://ondemo.tmsimg.com/assets/s101672_ll_h15_aa.png?w=360&h=270"
-    }
+    "channellist": [
+        {
+            "contentId": "88174",
+            "name": "ATV",
+            "lang": "AT",
+            "pictures": [
+                {
+                    "href": "https://ondemo.tmsimg.com/assets/s88174_ll_h15_ab.png?w=120&h=90"
+                }
+            ]
+        },
+        {
+            "contentId": "101672",
+            "name": "ATV2",
+            "lang": "AT",
+            "pictures": [
+                {
+                    "href": "https://ondemo.tmsimg.com/assets/s101672_ll_h15_aa.png?w=120&h=90"
+                }
+            ]
+        }
+    ]
 }

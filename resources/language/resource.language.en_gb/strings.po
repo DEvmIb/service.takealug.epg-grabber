@@ -738,3 +738,11 @@ msgstr ""
 msgctxt "#32618"
 msgid "Enable Gracenote (World)"
 msgstr ""
+
+msgctxt "#32619"
+msgid "ApiKey"
+msgstr ""
+
+msgctxt "#32620"
+msgid "Select Rating System"
+msgstr ""

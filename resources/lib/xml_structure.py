@@ -41,7 +41,7 @@ def xml_broadcast_start(provider):
     with open(guide_temp, 'a', encoding='utf-8') as f:
         f.write(start)
 
-def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_endtime, item_description, item_country, item_picture, item_subtitle, items_genre, item_date, item_season, item_episode, item_agerating, item_starrating, items_director, items_producer, items_actor, enable_rating_mapper, lang):
+def xml_broadcast(episode_format, channel_id, item_title, item_starttime, item_endtime, item_description, item_country, item_picture, item_subtitle, items_genre, item_date, item_season, item_episode, item_agerating, item_starrating, items_director, items_producer, items_actor, enable_rating_mapper, lang, item_long_description=""):
     guide = []
     guide.append('\n')
 
