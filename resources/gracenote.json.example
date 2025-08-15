@@ -1,0 +1,24 @@
+{
+    "channellist": [
+        {
+            "contentId": "88174",
+            "name": "ATV",
+            "lang": "AT",
+            "pictures": [
+                {
+                    "href": "https://ondemo.tmsimg.com/assets/s88174_ll_h15_ab.png?w=120&h=90"
+                }
+            ]
+        },
+        {
+            "contentId": "101672",
+            "name": "ATV2",
+            "lang": "AT",
+            "pictures": [
+                {
+                    "href": "https://ondemo.tmsimg.com/assets/s101672_ll_h15_aa.png?w=120&h=90"
+                }
+            ]
+        }
+    ]
+}
