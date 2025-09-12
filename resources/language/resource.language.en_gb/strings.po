@@ -746,3 +746,11 @@ msgstr ""
 msgctxt "#32620"
 msgid "Select Rating System"
 msgstr ""
+
+msgctxt "#32621"
+msgid "Enable Internal Webserver"
+msgstr ""
+
+msgctxt "#32622"
+msgid "Port"
+msgstr ""

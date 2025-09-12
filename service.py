@@ -104,9 +104,35 @@ grabber_cron = os.path.join(datapath, 'grabber_cron.json')
 grabber_cron_tmp = os.path.join(temppath, 'grabber_cron.json')
 xmltv_dtd = os.path.join(datapath, 'xmltv.dtd')
 
+## http server
+from http.server import HTTPServer, BaseHTTPRequestHandler
+
+class Serv(BaseHTTPRequestHandler):
+
+    def do_GET(self):
+       try:
+           file_to_open = open(os.path.join(storage_path, 'guide.xml')).read()
+           self.send_response(200)
+       except:
+           file_to_open = "File not found"
+           self.send_response(404)
+       self.end_headers()
+       self.wfile.write(bytes(file_to_open, 'utf-8'))
+
+
+
 ## Make a debug logger
 def log(message, loglevel=xbmc.LOGDEBUG):
     xbmc.log('[{} {}] {}'.format(addon_name, addon_version, message), loglevel)
+
+log('gogo web', xbmc.LOGINFO)
+log(getAddonSetting("enable_webserver"), xbmc.LOGINFO)
+
+if getAddonSetting("enable_webserver"):
+    log('http started', xbmc.LOGINFO)
+    log(getAddonSetting("webserver_port"), xbmc.LOGINFO)
+    httpd = HTTPServer(('localhost',int(xbmcaddon.Addon(id="service.takealug.epg-grabber").getSetting('webserver_port'))),Serv)
+    httpd.serve_forever()
 
 ## Make OSD Notify Messages
 OSD = xbmcgui.Dialog()

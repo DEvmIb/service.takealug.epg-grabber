@@ -751,3 +751,11 @@ msgstr "ApiKey"
 msgctxt "#32620"
 msgid "Select Rating System"
 msgstr "Altersfreigabe"
+
+msgctxt "#32621"
+msgid "Enable Internal Webserver"
+msgstr "Internen Webserver aktivieren"
+
+msgctxt "#32622"
+msgid "Port"
+msgstr "Port"
