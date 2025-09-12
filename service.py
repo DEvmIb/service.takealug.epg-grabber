@@ -125,9 +125,6 @@ class Serv(BaseHTTPRequestHandler):
 def log(message, loglevel=xbmc.LOGDEBUG):
     xbmc.log('[{} {}] {}'.format(addon_name, addon_version, message), loglevel)
 
-log('gogo web', xbmc.LOGINFO)
-log(getAddonSetting("enable_webserver"), xbmc.LOGINFO)
-
 if getAddonSetting("enable_webserver"):
     log('http started', xbmc.LOGINFO)
     log(getAddonSetting("webserver_port"), xbmc.LOGINFO)
