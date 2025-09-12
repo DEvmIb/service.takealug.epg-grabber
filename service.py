@@ -131,7 +131,7 @@ log(getAddonSetting("enable_webserver"), xbmc.LOGINFO)
 if getAddonSetting("enable_webserver"):
     log('http started', xbmc.LOGINFO)
     log(getAddonSetting("webserver_port"), xbmc.LOGINFO)
-    httpd = HTTPServer(('localhost',int(xbmcaddon.Addon(id="service.takealug.epg-grabber").getSetting('webserver_port'))),Serv)
+    httpd = HTTPServer(('',int(xbmcaddon.Addon(id="service.takealug.epg-grabber").getSetting('webserver_port'))),Serv)
     httpd.serve_forever()
 
 ## Make OSD Notify Messages
