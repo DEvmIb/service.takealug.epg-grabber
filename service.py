@@ -23,6 +23,7 @@ import importlib
 import requests
 import shutil
 import gzip
+import threading
 
 ADDON = xbmcaddon.Addon(id="service.takealug.epg-grabber")
 addon_name = ADDON.getAddonInfo('name')
@@ -107,29 +108,30 @@ xmltv_dtd = os.path.join(datapath, 'xmltv.dtd')
 ## http server
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-class Serv(BaseHTTPRequestHandler):
+def webserver():
+    class Serv(BaseHTTPRequestHandler):
+        def do_GET(self):
+            try:
+                file_to_open = open(os.path.join(storage_path, 'guide.xml')).read()
+                self.send_response(200)
+            except:
+                file_to_open = "File not found"
+                self.send_response(404)
+            self.end_headers()
+            self.wfile.write(bytes(file_to_open, 'utf-8'))
 
-    def do_GET(self):
-       try:
-           file_to_open = open(os.path.join(storage_path, 'guide.xml')).read()
-           self.send_response(200)
-       except:
-           file_to_open = "File not found"
-           self.send_response(404)
-       self.end_headers()
-       self.wfile.write(bytes(file_to_open, 'utf-8'))
+    if getAddonSetting("enable_webserver"):
+        #log('http started', xbmc.LOGINFO)
+        #log(getAddonSetting("webserver_port"), xbmc.LOGINFO)
+        httpd = HTTPServer(('',int(xbmcaddon.Addon(id="service.takealug.epg-grabber").getSetting('webserver_port'))),Serv)
+        httpd.serve_forever()
+    
 
-
+threading.Thread(target = webserver).start()
 
 ## Make a debug logger
 def log(message, loglevel=xbmc.LOGDEBUG):
     xbmc.log('[{} {}] {}'.format(addon_name, addon_version, message), loglevel)
-
-if getAddonSetting("enable_webserver"):
-    log('http started', xbmc.LOGINFO)
-    log(getAddonSetting("webserver_port"), xbmc.LOGINFO)
-    httpd = HTTPServer(('',int(xbmcaddon.Addon(id="service.takealug.epg-grabber").getSetting('webserver_port'))),Serv)
-    httpd.serve_forever()
 
 ## Make OSD Notify Messages
 OSD = xbmcgui.Dialog()
