@@ -504,7 +504,7 @@ def worker(timeswitch_1, timeswitch_2, timeswitch_3):
     with open(grabber_cron, 'w', encoding='utf-8') as f:
         f.write(json.dumps({'last_download': str(int(last_download)), 'next_download': str(int(next_download))}))
 
-def check_internet(host="8.8.8.8", port=53, timeout=3):
+def check_internet(host="google.com", port=80, timeout=3):
   try:
     socket.setdefaulttimeout(timeout)
     socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
