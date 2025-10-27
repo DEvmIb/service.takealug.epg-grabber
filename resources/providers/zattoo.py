@@ -520,13 +520,14 @@ def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, pr
 
         broadcast_dirtylist = list()
         for i in range(0, int(days_to_grab)):
-            with open(os.path.join(provider_temppath, 'day_{}.json'.format(i)), 'r', encoding='utf-8') as s:
-                ztt_mani = json.load(s)
-            for broadcast in ztt_mani['channels'][contentID]:
-                broadcast_id = str(broadcast['id'])
-                broadcast_dirtylist.append(broadcast_id)
-            broadcast_list = list(set(broadcast_dirtylist))
-            broadcast_ids = ','.join(broadcast_list)
+            if os.path.isfile(os.path.join(provider_temppath, 'day_{}.json'.format(i))):
+                with open(os.path.join(provider_temppath, 'day_{}.json'.format(i)), 'r', encoding='utf-8') as s:
+                    ztt_mani = json.load(s)
+                for broadcast in ztt_mani['channels'][contentID]:
+                    broadcast_id = str(broadcast['id'])
+                    broadcast_dirtylist.append(broadcast_id)
+                broadcast_list = list(set(broadcast_dirtylist))
+                broadcast_ids = ','.join(broadcast_list)
 
             if i == int(days_to_grab) -1:
                 break
