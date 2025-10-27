@@ -473,24 +473,26 @@ def download_manifest(grabber, days_to_grab, provider_temppath, zttdict, ztt_ses
         items += 1
         percent_remain = int(100) - int(items) * int(100) / int(items_to_download)
         percent_completed = int(100) * int(items) / int(items_to_download)
-        mani_files = os.path.join(provider_temppath, 'day_{}.json'.format(i))
         ztt_mani_url = 'https://{}/zapi/v3/cached/{}/guide?start={}&end={}'.format(zttdict[grabber][12], session_data['power_guide_hash'], day_to_start, day_to_end)
-        response = requests.get(ztt_mani_url, headers=header, cookies={'beaker.session.id': session_data['beaker.session.id']})
-        response.raise_for_status()
-        ztt_mani = response.json()
-
-        ## Save Manifest Files To Disk
-        with open(mani_files, 'w', encoding='utf-8') as mani:
-            json.dump(ztt_mani, mani, indent=4)
-
-        pDialog.update(int(percent_completed), '{} {} '.format(loc(32504), items), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
+        try:
+            response = requests.get(ztt_mani_url, headers=header, cookies={'beaker.session.id': session_data['beaker.session.id']})
+            response.raise_for_status()
+            ztt_mani = response.json()
+            mani_files = os.path.join(provider_temppath, 'day_{}.json'.format(i))
+            ## Save Manifest Files To Disk
+            with open(mani_files, 'w', encoding='utf-8') as mani:
+                json.dump(ztt_mani, mani, indent=4)
+        except:
+            log('{} {}'.format('failed',ztt_mani_url), xbmc.LOGINFO)
 
         day_to_start += int(86400)
         day_to_end += int(86400)
 
+        pDialog.update(int(percent_completed), '{} {} '.format(loc(32504), items), '{} {} {}'.format(int(percent_remain), loc(32501), provider))
         if i == int(days_to_grab) - 1:
-            log('{} {}'.format(provider, loc(32383)), xbmc.LOGINFO)
-            break
+                log('{} {}'.format(provider, loc(32383)), xbmc.LOGINFO)
+                break
+        
     pDialog.close()
 
 def download_thread(grabber, ztt_chlist_selected, multi, list_done, provider, provider_temppath, zttdict, days_to_grab, header, ztt_session):
