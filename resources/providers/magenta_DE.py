@@ -87,7 +87,7 @@ magentaDE_chlist_provider_tmp = os.path.join(provider_temppath, 'chlist_magentaD
 magentaDE_chlist_provider = os.path.join(provider_temppath, 'chlist_magentaDE_provider.json')
 magentaDE_chlist_selected = os.path.join(datapath, 'chlist_magentaDE_selected.json')
 
-magentaDE_authenticate_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/Authenticate'
+magentaDE_authenticate_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/Authenticate?SID=firstup&T=Windows_chrome_118'
 magentaDE_channellist_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/AllChannel'
 magentaDE_data_url = 'https://api.prod.sngtv.magentatv.de/EPG/JSON/PlayBillList?userContentFilter=241221015&sessionArea=1&SID=ottall&T=PC_firefox_75'
 
@@ -104,6 +104,7 @@ magentaDE_header = {'Host': 'api.prod.sngtv.magentatv.de',
                     'Upgrade-Insecure-Requests': '1'}
 
 magentaDE_session_cookie = os.path.join(provider_temppath, 'cookies.json')
+magentaDE_csrftoken_file = os.path.join(provider_temppath, 'csrftoken.json')
 
 def magentaDE_session():
     x = 0
@@ -121,6 +122,16 @@ def magentaDE_session():
     with open(magentaDE_session_cookie, 'w', encoding='utf-8') as f:
         json.dump(requests.utils.dict_from_cookiejar(auth_session.cookies), f)
 
+    ## Magenta liefert den gueltigen CSRF-Token inzwischen im JSON-Body der
+    ## Authenticate-Antwort (Feld "csrfToken") und nicht mehr 1:1 im
+    ## CSRFSESSION-Cookie. Deshalb wird er hier separat gespeichert.
+    try:
+        auth_response = t.json()
+    except Exception:
+        auth_response = {}
+    with open(magentaDE_csrftoken_file, 'w', encoding='utf-8') as f:
+        json.dump({'csrfToken': auth_response.get('csrfToken', '')}, f)
+
 ## Get channel list(url)
 def get_channellist():
     magentaDE_session()
@@ -129,11 +140,21 @@ def get_channellist():
     with open(magentaDE_session_cookie, 'r', encoding='utf-8') as f:
         session.cookies = requests.utils.cookiejar_from_dict(json.load(f))
 
-    magenta_CSRFToken = session.cookies["CSRFSESSION"]
+    ## CSRF-Token jetzt aus der separat gespeicherten Authenticate-Antwort laden
+    ## (nicht mehr aus dem CSRFSESSION-Cookie, siehe magentaDE_session())
+    with open(magentaDE_csrftoken_file, 'r', encoding='utf-8') as f:
+        magenta_CSRFToken = json.load(f).get('csrfToken', '')
     session.headers.update({'X_CSRFToken': magenta_CSRFToken})
     magenta_chlist_url = session.post(magentaDE_channellist_url, data=json.dumps(magentaDE_get_chlist),headers=magentaDE_header)
     magenta_chlist_url.raise_for_status()
     response = magenta_chlist_url.json()
+
+    ## Bessere Fehlermeldung statt kryptischem KeyError, falls Magenta
+    ## statt der Kanalliste eine Fehlermeldung zurueckgibt (z.B. bei ungueltigem Token)
+    if 'channellist' not in response:
+        log('{} Fehlerhafte Antwort von Magenta beim Kanalabruf: {}'.format(provider, response), xbmc.LOGERROR)
+        notify(addon_name, '{}: Magenta-Kanalabruf fehlgeschlagen, siehe Log'.format(provider))
+        return
 
     with open(magentaDE_chlist_provider_tmp, 'w', encoding='utf-8') as provider_list_tmp:
         json.dump(response, provider_list_tmp)
@@ -300,7 +321,10 @@ def download_thread(magentaDE_chlist_selected, multi, list, starttime, endtime):
     ## Load Cookies from Disk
     with open(magentaDE_session_cookie, 'r', encoding='utf-8') as f:
         session.cookies = requests.utils.cookiejar_from_dict(json.load(f))
-    magenta_CSRFToken = session.cookies["CSRFSESSION"]
+    ## CSRF-Token aus der separat gespeicherten Authenticate-Antwort laden
+    ## (nicht mehr aus dem CSRFSESSION-Cookie, siehe magentaDE_session())
+    with open(magentaDE_csrftoken_file, 'r', encoding='utf-8') as f:
+        magenta_CSRFToken = json.load(f).get('csrfToken', '')
     session.headers.update({'X_CSRFToken': magenta_CSRFToken})
 
     with open(magentaDE_chlist_selected, 'r', encoding='utf-8') as s:
